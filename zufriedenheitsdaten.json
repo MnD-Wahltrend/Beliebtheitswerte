@@ -148,6 +148,15 @@
         "regierung_zufrieden": 41,
         "regierung_unzufrieden": 51
       }
+    },
+    {
+      "id": "fxuxcvaxmrtrfyhz",
+      "institute": "Forschungsgruppe Wahlen",
+      "date": "2025-07-25",
+      "values": {
+        "regierung_zufrieden": 41,
+        "regierung_unzufrieden": 49
+      }
     }
   ],
   "instituteWeights": {
