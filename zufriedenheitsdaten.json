@@ -188,6 +188,17 @@
         "regierung_zufrieden": 13,
         "regierung_unzufrieden": 86
       }
+    },
+    {
+      "id": "hqp9uooamrtrnl3z",
+      "institute": "infratest dimap",
+      "date": "2026-06-02",
+      "values": {
+        "kanzler_zufrieden": 16,
+        "kanzler_unzufrieden": 82,
+        "regierung_zufrieden": 12,
+        "regierung_unzufrieden": 87
+      }
     }
   ],
   "instituteWeights": {
