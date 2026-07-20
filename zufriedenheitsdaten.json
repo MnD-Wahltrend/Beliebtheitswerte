@@ -218,6 +218,6 @@
     "Ipsos": 1
   },
   "instituteActive": {},
-  "halfLifeDays": 21,
+  "halfLifeDays": 50,
   "maxAgeDays": 365
 }
