@@ -33,7 +33,19 @@
       "primary": false
     }
   ],
-  "polls": [],
+  "polls": [
+    {
+      "id": "azx17kpmmrtqtl7u",
+      "institute": "Forschungsgruppe Wahlen",
+      "date": "2026-07-17",
+      "values": {
+        "kanzler_zufrieden": 27,
+        "kanzler_unzufrieden": 70,
+        "regierung_zufrieden": 27,
+        "regierung_unzufrieden": 68
+      }
+    }
+  ],
   "instituteWeights": {
     "infratest dimap": 1.2,
     "Forschungsgruppe Wahlen": 1.2,
