@@ -276,6 +276,17 @@
         "regierung_zufrieden": 22,
         "regierung_unzufrieden": 76
       }
+    },
+    {
+      "id": "mohlanobmrtrzkva",
+      "institute": "infratest dimap",
+      "date": "2025-10-01",
+      "values": {
+        "kanzler_zufrieden": 27,
+        "kanzler_unzufrieden": 69,
+        "regierung_zufrieden": 20,
+        "regierung_unzufrieden": 77
+      }
     }
   ],
   "instituteWeights": {
