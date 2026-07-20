@@ -137,6 +137,17 @@
         "regierung_zufrieden": 39,
         "regierung_unzufrieden": 55
       }
+    },
+    {
+      "id": "cw2lf41gmrtrebhw",
+      "institute": "Forschungsgruppe Wahlen",
+      "date": "2025-09-05",
+      "values": {
+        "kanzler_zufrieden": 46,
+        "kanzler_unzufrieden": 46,
+        "regierung_zufrieden": 41,
+        "regierung_unzufrieden": 51
+      }
     }
   ],
   "instituteWeights": {
