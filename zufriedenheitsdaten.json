@@ -378,7 +378,7 @@
     "Forschungsgruppe Wahlen": 1.5,
     "Ipsos": 1,
     "Forsa": 1,
-    "Insa": 1
+    "Insa": 0.75
   },
   "instituteActive": {},
   "halfLifeDays": 61,
