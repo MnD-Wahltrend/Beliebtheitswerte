@@ -1,15 +1,43 @@
 {
   "parties": [
-    { "id": "kanzler_zufrieden", "name": "Kanzler zufrieden", "color": "#46962B", "active": true, "group": "Kanzler", "primary": true },
-    { "id": "kanzler_unzufrieden", "name": "Kanzler unzufrieden", "color": "#E3000F", "active": true, "group": "Kanzler", "primary": false },
-    { "id": "regierung_zufrieden", "name": "Regierung zufrieden", "color": "#3F9EDB", "active": true, "group": "Regierung", "primary": true },
-    { "id": "regierung_unzufrieden", "name": "Regierung unzufrieden", "color": "#E08A2C", "active": true, "group": "Regierung", "primary": false }
+    {
+      "id": "kanzler_zufrieden",
+      "name": "Kanzler zufrieden",
+      "color": "#46962B",
+      "active": true,
+      "group": "Kanzler",
+      "primary": true
+    },
+    {
+      "id": "kanzler_unzufrieden",
+      "name": "Kanzler unzufrieden",
+      "color": "#E3000F",
+      "active": true,
+      "group": "Kanzler",
+      "primary": false
+    },
+    {
+      "id": "regierung_zufrieden",
+      "name": "Regierung zufrieden",
+      "color": "#3F9EDB",
+      "active": true,
+      "group": "Regierung",
+      "primary": true
+    },
+    {
+      "id": "regierung_unzufrieden",
+      "name": "Regierung unzufrieden",
+      "color": "#E08A2C",
+      "active": true,
+      "group": "Regierung",
+      "primary": false
+    }
   ],
   "polls": [],
   "instituteWeights": {
     "infratest dimap": 1.2,
     "Forschungsgruppe Wahlen": 1.2,
-    "Ipsos": 1.0
+    "Ipsos": 1
   },
   "instituteActive": {},
   "halfLifeDays": 21,
