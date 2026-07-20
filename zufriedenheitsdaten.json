@@ -345,7 +345,8 @@
   "instituteWeights": {
     "infratest dimap": 1.2,
     "Forschungsgruppe Wahlen": 1.2,
-    "Ipsos": 1
+    "Ipsos": 1,
+    "Forsa": 1
   },
   "instituteActive": {},
   "halfLifeDays": 61,
