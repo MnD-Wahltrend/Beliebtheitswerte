@@ -44,8 +44,8 @@
 const { useState, useMemo, useEffect } = React;
 
 // ====== HIER EINMALIG ANPASSEN ======
-const GH_OWNER = "MnD-Wahltrend";
-const GH_REPO = "Beliebtheitswerte";
+const GH_OWNER = "DEIN-GITHUB-BENUTZERNAME";
+const GH_REPO = "DEIN-REPOSITORY";
 const GH_PATH = "zufriedenheitsdaten.json";
 const GH_BRANCH = "main";
 // =====================================
@@ -191,6 +191,27 @@ function PublicTrendView() {
     });
   }, [parties]);
 
+  const netByGroup = useMemo(() => {
+    const result = {};
+    groups.forEach((g) => {
+      const others = g.categories.filter((c) => c.id !== g.primary.id);
+      const primaryVal = currentTrend[g.primary.id];
+      if (primaryVal === null || primaryVal === undefined || others.length === 0) {
+        result[g.name] = null;
+        return;
+      }
+      let sum = 0;
+      let allPresent = true;
+      others.forEach((c) => {
+        const v = currentTrend[c.id];
+        if (v === null || v === undefined) { allPresent = false; return; }
+        sum += v;
+      });
+      result[g.name] = allPresent ? primaryVal - sum : null;
+    });
+    return result;
+  }, [groups, currentTrend]);
+
   const trendSeries = useMemo(() => {
     if (!data) return [];
     const uniqueDates = Array.from(new Set(polls.map((p) => p.date))).sort();
@@ -237,18 +258,20 @@ function PublicTrendView() {
           </div>
         )}
         {groups.map((g) => {
-          const v = g.primary ? currentTrend[g.primary.id] : null;
+          const net = netByGroup[g.name];
+          const hasNet = net !== null && net !== undefined;
+          const netColor = hasNet ? (net > 0 ? "#46962B" : net < 0 ? "#E3000F" : "var(--text-dim)") : "var(--text-dim)";
           return (
             <div key={g.name}>
-              <div className="ut-hero-label">{g.name}</div>
-              {v !== null && v !== undefined ? (
-                <div className="ut-display ut-hero-number" style={{ color: g.primary.color, fontSize: 48 }}>
-                  {v.toFixed(1).replace(".", ",")}%
+              <div className="ut-hero-label">{g.name} — Nettozufriedenheit</div>
+              {hasNet ? (
+                <div className="ut-display ut-hero-number" style={{ color: netColor, fontSize: 48 }}>
+                  {(net > 0 ? "+" : "") + net.toFixed(1).replace(".", ",")}%
                 </div>
               ) : (
                 <div className="ut-display ut-hero-number" style={{ color: "var(--text-dim)", fontSize: 48 }}>—</div>
               )}
-              <div className="ut-hero-meta">{g.primary ? g.primary.name : ""}</div>
+              <div className="ut-hero-meta">{g.primary ? g.primary.name + " − übrige Kategorien der Gruppe" : ""}</div>
               <div className="ut-chips">
                 {g.categories.map((p) => (
                   <div className="ut-chip" key={p.id}>
