@@ -331,6 +331,15 @@
         "regierung_zufrieden": 40,
         "regierung_unzufrieden": 51
       }
+    },
+    {
+      "id": "zmzmjqgmmrts4tp2",
+      "institute": "infratest dimap",
+      "date": "2025-05-06",
+      "values": {
+        "regierung_zufrieden": 42,
+        "regierung_unzufrieden": 53
+      }
     }
   ],
   "instituteWeights": {
