@@ -287,6 +287,17 @@
         "regierung_zufrieden": 20,
         "regierung_unzufrieden": 77
       }
+    },
+    {
+      "id": "9gnfy1h8mrts0fdu",
+      "institute": "infratest dimap",
+      "date": "2025-09-02",
+      "values": {
+        "kanzler_zufrieden": 33,
+        "kanzler_unzufrieden": 62,
+        "regierung_zufrieden": 22,
+        "regierung_unzufrieden": 75
+      }
     }
   ],
   "instituteWeights": {
