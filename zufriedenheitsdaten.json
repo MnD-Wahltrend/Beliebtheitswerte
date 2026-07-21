@@ -621,6 +621,17 @@
         "kanzler_zufrieden": 23,
         "kanzler_unzufrieden": 75
       }
+    },
+    {
+      "id": "vr9vxshnmrutsxtu",
+      "institute": "Forschungsgruppe Wahlen",
+      "date": "2026-02-06",
+      "values": {
+        "kanzler_zufrieden": 37,
+        "kanzler_unzufrieden": 58,
+        "regierung_zufrieden": 37,
+        "regierung_unzufrieden": 58
+      }
     }
   ],
   "instituteWeights": {
