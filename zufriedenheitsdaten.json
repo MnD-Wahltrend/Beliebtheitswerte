@@ -422,7 +422,7 @@
     "YouGov": 0.9
   },
   "instituteActive": {
-    "Ipsos": true
+    "Ipsos": false
   },
   "halfLifeDays": 50,
   "maxAgeDays": 365
