@@ -540,6 +540,15 @@
         "regierung_zufrieden": 20,
         "regierung_unzufrieden": 73
       }
+    },
+    {
+      "id": "547ju5zpmrutmz58",
+      "institute": "Forsa",
+      "date": "2026-04-07",
+      "values": {
+        "kanzler_zufrieden": 20,
+        "kanzler_unzufrieden": 78
+      }
     }
   ],
   "instituteWeights": {
