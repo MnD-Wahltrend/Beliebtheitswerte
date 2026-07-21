@@ -518,6 +518,17 @@
         "kanzler_zufrieden": 15,
         "kanzler_unzufrieden": 83
       }
+    },
+    {
+      "id": "pfegl5x2mrutju9p",
+      "institute": "YouGov",
+      "date": "2026-04-15",
+      "values": {
+        "kanzler_zufrieden": 20,
+        "kanzler_unzufrieden": 75,
+        "regierung_zufrieden": 18,
+        "regierung_unzufrieden": 79
+      }
     }
   ],
   "instituteWeights": {
