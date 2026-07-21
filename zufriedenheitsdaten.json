@@ -402,6 +402,15 @@
         "regierung_zufrieden": 17,
         "regierung_unzufrieden": 83
       }
+    },
+    {
+      "id": "7djvqtxcmrusn4c1",
+      "institute": "Ipsos",
+      "date": "2026-05-21",
+      "values": {
+        "regierung_zufrieden": 17,
+        "regierung_unzufrieden": 83
+      }
     }
   ],
   "instituteWeights": {
