@@ -419,7 +419,7 @@
     "Ipsos": 1,
     "Forsa": 1,
     "Insa": 0.75,
-    "YouGov": 1
+    "YouGov": 0.9
   },
   "instituteActive": {},
   "halfLifeDays": 50,
