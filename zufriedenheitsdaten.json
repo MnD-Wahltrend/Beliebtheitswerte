@@ -421,7 +421,9 @@
     "Insa": 0.75,
     "YouGov": 0.9
   },
-  "instituteActive": {},
+  "instituteActive": {
+    "Ipsos": false
+  },
   "halfLifeDays": 50,
   "maxAgeDays": 365
 }
