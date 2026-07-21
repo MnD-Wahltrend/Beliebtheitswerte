@@ -408,6 +408,8 @@
       "institute": "Ipsos",
       "date": "2026-05-21",
       "values": {
+        "kanzler_zufrieden": 18,
+        "kanzler_unzufrieden": 82,
         "regierung_zufrieden": 17,
         "regierung_unzufrieden": 83
       }
