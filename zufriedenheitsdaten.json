@@ -20,7 +20,7 @@
       "id": "regierung_zufrieden",
       "name": "Regierung zufrieden",
       "color": "#3F9EDB",
-      "active": true,
+      "active": false,
       "group": "Regierung",
       "primary": true
     },
@@ -28,7 +28,7 @@
       "id": "regierung_unzufrieden",
       "name": "Regierung unzufrieden",
       "color": "#E08A2C",
-      "active": true,
+      "active": false,
       "group": "Regierung",
       "primary": false
     }
