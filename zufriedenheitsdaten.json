@@ -739,6 +739,15 @@
         "kanzler_zufrieden": 25,
         "kanzler_unzufrieden": 73
       }
+    },
+    {
+      "id": "c4mrxeyimrwmvvtz",
+      "institute": "Forsa",
+      "date": "2026-07-21",
+      "values": {
+        "kanzler_zufrieden": 14,
+        "kanzler_unzufrieden": 85
+      }
     }
   ],
   "instituteWeights": {
