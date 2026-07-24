@@ -125,6 +125,8 @@
       "institute": "Forschungsgruppe Wahlen",
       "date": "2025-11-21",
       "values": {
+        "kanzler_zufrieden": 40,
+        "kanzler_unzufrieden": 56,
         "regierung_zufrieden": 37,
         "regierung_unzufrieden": 59
       }
