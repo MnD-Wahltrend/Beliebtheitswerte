@@ -135,7 +135,9 @@
       "date": "2025-11-07",
       "values": {
         "kanzler_zufrieden": 41,
-        "kanzler_unzufrieden": 53
+        "kanzler_unzufrieden": 53,
+        "regierung_zufrieden": 39,
+        "regierung_unzufrieden": 55
       }
     },
     {
