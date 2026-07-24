@@ -1180,6 +1180,15 @@
         "kanzler_zufrieden": 45,
         "kanzler_unzufrieden": 46
       }
+    },
+    {
+      "id": "nqm67tjimryu6y1d",
+      "institute": "Forschungsgruppe Wahlen",
+      "date": "2025-10-24",
+      "values": {
+        "kanzler_zufrieden": 46,
+        "kanzler_unzufrieden": 49
+      }
     }
   ],
   "instituteWeights": {
