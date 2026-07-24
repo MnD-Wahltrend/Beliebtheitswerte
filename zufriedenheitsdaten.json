@@ -154,8 +154,8 @@
       "institute": "Forschungsgruppe Wahlen",
       "date": "2025-07-25",
       "values": {
-        "regierung_zufrieden": 49,
-        "regierung_unzufrieden": 41
+        "kanzler_zufrieden": 49,
+        "kanzler_unzufrieden": 41
       }
     },
     {
