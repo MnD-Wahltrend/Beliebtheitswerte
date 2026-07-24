@@ -28,6 +28,8 @@
   table.ut-table th, table.ut-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
   table.ut-table th { color: var(--text-dim); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
   .ut-status { font-size: 12px; color: var(--text-dim); margin-top: 8px; }
+  .ut-hint { font-size: 12px; color: var(--text-dim); line-height: 1.5; margin-top: 10px; }
+  .ut-tools { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
   .ut-chart-empty { color: var(--text-dim); font-size: 13px; }
   .ut-footer { text-align: center; font-size: 12px; color: var(--text-dim); margin-top: 30px; }
   .ut-footer a { color: var(--text-dim); }
@@ -44,8 +46,8 @@
 const { useState, useMemo, useEffect } = React;
 
 // ====== HIER EINMALIG ANPASSEN ======
-const GH_OWNER = "MnD-Wahltrend";
-const GH_REPO = "Beliebtheitswerte";
+const GH_OWNER = "DEIN-GITHUB-BENUTZERNAME";
+const GH_REPO = "DEIN-REPOSITORY";
 const GH_PATH = "zufriedenheitsdaten.json";
 const GH_BRANCH = "main";
 // =====================================
@@ -53,6 +55,14 @@ const GH_BRANCH = "main";
 const RAW_URL = "https://raw.githubusercontent.com/" + GH_OWNER + "/" + GH_REPO + "/" + GH_BRANCH + "/" + GH_PATH;
 const REFRESH_MS = 5 * 60 * 1000; // alle 5 Minuten neu laden
 const POLL_PAGE_SIZE = 15;
+
+// Frageformulierungs-Filter für die öffentliche Ansicht: manche Institute fragen "zufrieden/unzufrieden",
+// andere fragen "macht die Arbeit eher gut/schlecht" - das sind unterschiedliche Fragen, daher getrennt filterbar.
+// Institutsnamen werden ohne Rücksicht auf Groß-/Kleinschreibung abgeglichen.
+const QUESTION_FILTERS = [
+  { id: "zufriedenheit_arbeit", label: "Zufriedenheit mit der Arbeit", institutes: ["forsa", "insa", "infratest dimap"] },
+  { id: "gut_schlecht", label: "Macht seine Arbeit eher gut/schlecht", institutes: ["forschungsgruppe wahlen"] },
+];
 
 const tsOf = (dateStr) => new Date(dateStr + "T00:00:00").getTime();
 const fmtDateShort = (ts) => new Date(ts).toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "2-digit" });
@@ -140,6 +150,28 @@ function PublicTrendView() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [lastFetched, setLastFetched] = useState(null);
+  const [activeFilters, setActiveFilters] = useState(() => {
+    const init = {};
+    QUESTION_FILTERS.forEach((f) => { init[f.id] = true; });
+    return init;
+  });
+
+  function toggleFilter(id) {
+    setActiveFilters((prev) => ({ ...prev, [id]: !prev[id] }));
+  }
+
+  function isIncludedByQuestionFilter(institute) {
+    const name = (institute || "").trim().toLowerCase();
+    let inAnyGroup = false;
+    let allowed = false;
+    QUESTION_FILTERS.forEach((f) => {
+      if (f.institutes.includes(name)) {
+        inAnyGroup = true;
+        if (activeFilters[f.id]) allowed = true;
+      }
+    });
+    return inAnyGroup ? allowed : true; // Institute außerhalb der beiden Gruppen bleiben unberührt
+  }
 
   async function load() {
     try {
@@ -164,8 +196,8 @@ function PublicTrendView() {
   const instituteWeights = data ? data.instituteWeights : {};
   const instituteActive = data ? data.instituteActive || {} : {};
   const polls = useMemo(
-    () => (data ? data.polls.filter((p) => instituteActive[p.institute] !== false) : []),
-    [data]
+    () => (data ? data.polls.filter((p) => instituteActive[p.institute] !== false && isIncludedByQuestionFilter(p.institute)) : []),
+    [data, activeFilters]
   );
   const halfLifeDays = data && typeof data.halfLifeDays === "number" ? data.halfLifeDays : 21;
   const maxAgeDays = data && typeof data.maxAgeDays === "number" ? data.maxAgeDays : 365;
@@ -173,7 +205,7 @@ function PublicTrendView() {
 
   const currentTrend = useMemo(
     () => (data ? weightedAverages(polls, parties, instituteWeights, halfLifeDays, maxAgeDays, asOfDate) : {}),
-    [data]
+    [polls, parties, instituteWeights, halfLifeDays, maxAgeDays]
   );
 
   const groups = useMemo(() => {
@@ -221,7 +253,7 @@ function PublicTrendView() {
       parties.forEach((p) => { row[p.id] = avgs[p.id]; });
       return row;
     });
-  }, [data]);
+  }, [polls, parties, instituteWeights, halfLifeDays, maxAgeDays]);
 
   const rawByParty = useMemo(() => {
     const map = {};
@@ -230,12 +262,12 @@ function PublicTrendView() {
         .map((poll) => ({ ts: tsOf(poll.date), value: poll.values[p.id] }));
     });
     return map;
-  }, [data]);
+  }, [polls, parties]);
 
   const lastPollDate = useMemo(() => {
     if (polls.length === 0) return null;
     return polls.reduce((max, p) => (p.date > max ? p.date : max), polls[0].date);
-  }, [data]);
+  }, [polls]);
 
   const sortedPolls = useMemo(() => [...polls].sort((a, b) => (a.date < b.date ? 1 : -1)), [polls]);
   const [visiblePollCount, setVisiblePollCount] = useState(POLL_PAGE_SIZE);
@@ -287,6 +319,26 @@ function PublicTrendView() {
           <div className="ut-hero-meta">
             {lastPollDate ? "zuletzt erfasst am " + fmtDateLong(tsOf(lastPollDate)) : "Noch keine Umfragen erfasst"}
           </div>
+        </div>
+      </div>
+
+      <div className="ut-panel">
+        <h3>Frageformulierung</h3>
+        <div className="ut-hint" style={{ marginTop: -6, marginBottom: 10 }}>
+          Nicht alle Institute fragen dasselbe: manche erheben Zufriedenheit, andere eine Gut/Schlecht-Bewertung
+          der Arbeit. Beide fließen standardmäßig zusammen in den Trend ein — hier lässt sich das getrennt an-
+          oder abwählen.
+        </div>
+        <div className="ut-tools" style={{ flexDirection: "column", alignItems: "flex-start", gap: 10 }}>
+          {QUESTION_FILTERS.map((f) => (
+            <label key={f.id} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, cursor: "pointer" }}>
+              <input type="checkbox" checked={!!activeFilters[f.id]} onChange={() => toggleFilter(f.id)} />
+              {f.label}
+              <span style={{ color: "var(--text-dim)", fontSize: 12 }}>
+                ({f.institutes.map((n) => n.replace(/\b\w/g, (c) => c.toUpperCase())).join(", ")})
+              </span>
+            </label>
+          ))}
         </div>
       </div>
 
