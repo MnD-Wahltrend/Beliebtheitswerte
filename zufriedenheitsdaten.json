@@ -1135,6 +1135,15 @@
         "kanzler_zufrieden": 34,
         "kanzler_unzufrieden": 44
       }
+    },
+    {
+      "id": "46t68998mryu0ora",
+      "institute": "Insa",
+      "date": "2025-05-09",
+      "values": {
+        "kanzler_zufrieden": 29,
+        "kanzler_unzufrieden": 46
+      }
     }
   ],
   "instituteWeights": {
