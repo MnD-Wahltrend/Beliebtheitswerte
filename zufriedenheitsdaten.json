@@ -847,6 +847,15 @@
         "kanzler_zufrieden": 32,
         "kanzler_unzufrieden": 64
       }
+    },
+    {
+      "id": "sd5v0jhnmrytlup8",
+      "institute": "Forsa",
+      "date": "2025-08-12",
+      "values": {
+        "kanzler_zufrieden": 29,
+        "kanzler_unzufrieden": 67
+      }
     }
   ],
   "instituteWeights": {
