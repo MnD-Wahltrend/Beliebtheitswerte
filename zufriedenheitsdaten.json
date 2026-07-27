@@ -1217,6 +1217,6 @@
   "instituteActive": {
     "Ipsos": false
   },
-  "halfLifeDays": 30,
+  "halfLifeDays": 50,
   "maxAgeDays": 365
 }
