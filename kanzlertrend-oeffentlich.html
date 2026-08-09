@@ -223,6 +223,18 @@ function PublicTrendView() {
     });
   }, [parties]);
 
+  const [visibleGroups, setVisibleGroups] = useState({});
+  function isGroupVisible(name) { return visibleGroups[name] !== false; }
+  function toggleGroup(name) {
+    setVisibleGroups((prev) => ({ ...prev, [name]: prev[name] === false ? true : false }));
+  }
+
+  const displayGroups = useMemo(() => groups.filter((g) => isGroupVisible(g.name)), [groups, visibleGroups]);
+  const displayParties = useMemo(
+    () => parties.filter((p) => isGroupVisible(p.group || "Sonstige")),
+    [parties, visibleGroups]
+  );
+
   const netByGroup = useMemo(() => {
     const result = {};
     groups.forEach((g) => {
@@ -282,14 +294,14 @@ function PublicTrendView() {
   return (
     <div>
       <div className="ut-hero" style={{ alignItems: "flex-start" }}>
-        {groups.length === 0 && (
+        {displayGroups.length === 0 && (
           <div>
             <div className="ut-hero-label">Aktueller Trend</div>
             <div className="ut-display ut-hero-number" style={{ color: "var(--text-dim)" }}>—</div>
-            <div className="ut-hero-meta">Noch keine Kategorien aktiv</div>
+            <div className="ut-hero-meta">Noch keine Kategorien ausgewählt</div>
           </div>
         )}
-        {groups.map((g) => {
+        {displayGroups.map((g) => {
           const net = netByGroup[g.name];
           const hasNet = net !== null && net !== undefined;
           const netColor = hasNet ? (net > 0 ? "#46962B" : net < 0 ? "#E3000F" : "var(--text-dim)") : "var(--text-dim)";
@@ -323,6 +335,21 @@ function PublicTrendView() {
       </div>
 
       <div className="ut-panel">
+        <h3>Anzeige</h3>
+        <div className="ut-hint" style={{ marginTop: -6, marginBottom: 10 }}>
+          Nur Kanzler, nur Regierung, oder beide zusammen anzeigen.
+        </div>
+        <div className="ut-tools">
+          {groups.map((g) => (
+            <label key={g.name} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, cursor: "pointer" }}>
+              <input type="checkbox" checked={isGroupVisible(g.name)} onChange={() => toggleGroup(g.name)} />
+              {g.name}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div className="ut-panel">
         <h3>Frageformulierung</h3>
         <div className="ut-hint" style={{ marginTop: -6, marginBottom: 10 }}>
           Nicht alle Institute fragen dasselbe: manche erheben Zufriedenheit, andere eine Gut/Schlecht-Bewertung
@@ -344,7 +371,7 @@ function PublicTrendView() {
 
       <div className="ut-panel">
         <h3>Verlauf (gewichteter Trend, Punkte = einzelne Umfragen)</h3>
-        <TrendChart trendSeries={trendSeries} rawByParty={rawByParty} parties={parties} />
+        <TrendChart trendSeries={trendSeries} rawByParty={rawByParty} parties={displayParties} />
       </div>
 
       <div className="ut-panel">
@@ -357,7 +384,7 @@ function PublicTrendView() {
             <thead>
               <tr>
                 <th>Institut</th><th>Datum</th>
-                {parties.map((p) => <th key={p.id}>{p.name}</th>)}
+                {displayParties.map((p) => <th key={p.id}>{p.name}</th>)}
               </tr>
             </thead>
             <tbody>
@@ -365,7 +392,7 @@ function PublicTrendView() {
                 <tr key={poll.id}>
                   <td>{poll.institute}</td>
                   <td>{fmtDateShort(tsOf(poll.date))}</td>
-                  {parties.map((p) => (
+                  {displayParties.map((p) => (
                     <td key={p.id}>{typeof poll.values[p.id] === "number" ? poll.values[p.id].toFixed(1).replace(".", ",") + "%" : "–"}</td>
                   ))}
                 </tr>

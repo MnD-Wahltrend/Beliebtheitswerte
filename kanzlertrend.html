@@ -89,6 +89,14 @@ const STATE_KEY = "kanzlertrend-state";
 const GITHUB_CONFIG_KEY = "kanzlertrend-github-config";
 const POLL_PAGE_SIZE = 15;
 
+// Frageformulierungs-Filter: manche Institute fragen "zufrieden/unzufrieden", andere fragen
+// "macht die Arbeit eher gut/schlecht" - das sind unterschiedliche Fragen, daher getrennt filterbar.
+// Institutsnamen werden ohne Rücksicht auf Groß-/Kleinschreibung abgeglichen.
+const QUESTION_FILTERS = [
+  { id: "zufriedenheit_arbeit", label: "Zufriedenheit mit der Arbeit", institutes: ["forsa", "insa", "infratest dimap"] },
+  { id: "gut_schlecht", label: "Macht seine Arbeit eher gut/schlecht", institutes: ["forschungsgruppe wahlen"] },
+];
+
 const DEFAULT_PARTIES = [
   { id: "kanzler_zufrieden", name: "Kanzler zufrieden", color: "#46962B", active: true, group: "Kanzler", primary: true },
   { id: "kanzler_unzufrieden", name: "Kanzler unzufrieden", color: "#E3000F", active: true, group: "Kanzler", primary: false },
@@ -268,9 +276,32 @@ function Zufriedenheitstrend() {
 
   const isInstituteActive = (name) => instituteActive[name] !== false;
 
+  const [activeFilters, setActiveFilters] = useState(() => {
+    const init = {};
+    QUESTION_FILTERS.forEach((f) => { init[f.id] = true; });
+    return init;
+  });
+
+  function toggleFilter(id) {
+    setActiveFilters((prev) => ({ ...prev, [id]: !prev[id] }));
+  }
+
+  function isIncludedByQuestionFilter(institute) {
+    const name = (institute || "").trim().toLowerCase();
+    let inAnyGroup = false;
+    let allowed = false;
+    QUESTION_FILTERS.forEach((f) => {
+      if (f.institutes.includes(name)) {
+        inAnyGroup = true;
+        if (activeFilters[f.id]) allowed = true;
+      }
+    });
+    return inAnyGroup ? allowed : true; // Institute außerhalb der beiden Gruppen bleiben unberührt
+  }
+
   const includedPolls = useMemo(
-    () => polls.filter((p) => isInstituteActive(p.institute)),
-    [polls, instituteActive]
+    () => polls.filter((p) => isInstituteActive(p.institute) && isIncludedByQuestionFilter(p.institute)),
+    [polls, instituteActive, activeFilters]
   );
 
   const asOfDate = todayISO();
@@ -701,6 +732,26 @@ function Zufriedenheitstrend() {
         </form>
       </div>
 
+      <div className="ut-panel">
+        <h3>Frageformulierung</h3>
+        <div className="ut-hint" style={{ marginTop: -6, marginBottom: 10 }}>
+          Nicht alle Institute fragen dasselbe: manche erheben Zufriedenheit, andere eine Gut/Schlecht-Bewertung
+          der Arbeit. Beide fließen standardmäßig zusammen in den Trend ein — hier lässt sich das getrennt an-
+          oder abwählen. Wirkt sich auf Schnitt, Chart und die Umfragen-Tabelle aus.
+        </div>
+        <div className="ut-tools" style={{ flexDirection: "column", alignItems: "flex-start", gap: 10 }}>
+          {QUESTION_FILTERS.map((f) => (
+            <label key={f.id} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, cursor: "pointer" }}>
+              <input type="checkbox" checked={!!activeFilters[f.id]} onChange={() => toggleFilter(f.id)} />
+              {f.label}
+              <span style={{ color: "var(--text-dim)", fontSize: 12 }}>
+                ({f.institutes.map((n) => n.replace(/\b\w/g, (c) => c.toUpperCase())).join(", ")})
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
+
       <div id="ut-export-area">
       <div className="ut-hero" style={{ alignItems: "flex-start" }}>
         {groups.length === 0 && (
@@ -765,7 +816,7 @@ function Zufriedenheitstrend() {
             </thead>
             <tbody>
               {sortedPolls.slice(0, visiblePollCount).map((poll) => {
-                const active = isInstituteActive(poll.institute);
+                const active = isInstituteActive(poll.institute) && isIncludedByQuestionFilter(poll.institute);
                 return (
                 <tr key={poll.id} style={{ opacity: active ? 1 : 0.5 }}>
                   <td>{poll.institute}{!active && <span style={{ color: "var(--text-dim)", fontSize: 11 }}> (ausgeblendet)</span>}</td>
