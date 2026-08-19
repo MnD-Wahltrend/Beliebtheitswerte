@@ -1262,6 +1262,15 @@
         "regierung_zufrieden": 15,
         "regierung_unzufrieden": 79
       }
+    },
+    {
+      "id": "d9mkditqmszwoybr",
+      "institute": "Forsa",
+      "date": "2026-08-18",
+      "values": {
+        "kanzler_zufrieden": 13,
+        "kanzler_unzufrieden": 85
+      }
     }
   ],
   "instituteWeights": {
