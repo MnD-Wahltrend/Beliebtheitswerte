@@ -1291,6 +1291,17 @@
         "regierung_zufrieden": 15,
         "regierung_unzufrieden": 84
       }
+    },
+    {
+      "id": "4x7ouawvmu2hr022",
+      "institute": "INSA",
+      "date": "2026-09-05",
+      "values": {
+        "kanzler_zufrieden": 16,
+        "kanzler_unzufrieden": 77,
+        "regierung_zufrieden": 17,
+        "regierung_unzufrieden": 78
+      }
     }
   ],
   "instituteWeights": {
@@ -1299,7 +1310,8 @@
     "Ipsos": 1,
     "Forsa": 1,
     "Insa": 0.75,
-    "YouGov": 0.75
+    "YouGov": 0.75,
+    "INSA": 1
   },
   "instituteActive": {
     "Ipsos": false
