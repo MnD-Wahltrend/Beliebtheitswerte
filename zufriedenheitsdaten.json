@@ -1385,6 +1385,17 @@
         "regierung_zufrieden": 10,
         "regierung_unzufrieden": 89
       }
+    },
+    {
+      "id": "sfndxsrtmv6jsbkj",
+      "institute": "INSA",
+      "date": "2026-10-03",
+      "values": {
+        "kanzler_zufrieden": 15,
+        "kanzler_unzufrieden": 79,
+        "regierung_zufrieden": 14,
+        "regierung_unzufrieden": 79
+      }
     }
   ],
   "instituteWeights": {
